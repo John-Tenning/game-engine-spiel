@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = $(CURDIR)\Eg8\sprite.cpp
+OBJS = $(CURDIR)/CD/27_collision_detection.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -19,7 +19,7 @@ COMPILER_FLAGS = -w -Wl,-subsystem,windows
 LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
 #OBJ_NAME specifies the name of our exectuable
-OBJ_NAME = Eg8\output
+OBJ_NAME = $(CURDIR)/CD/op
 
 #This is the target that compiles our executable
 all : $(OBJS)
