@@ -1,6 +1,3 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2022)
-and may not be redistributed without written permission.*/
-
 //Using SDL, SDL_image, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
@@ -10,6 +7,19 @@ and may not be redistributed without written permission.*/
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
+
+class Obstacle : public SDL_Rect{
+	public : 
+	int x , y , w , h;
+
+	void setObs(int x , int y , int w , int h){
+		this->x = x;
+		this->y = y;
+		this->w = w;
+		this->h = h;
+	}
+};
+
 
 //Texture wrapper class
 class LTexture
@@ -112,6 +122,7 @@ SDL_Renderer* gRenderer = NULL;
 //Scene textures
 LTexture gDotTexture;
 LTexture gBackgroundTexture;
+LTexture gFooTexture;
 LTexture::LTexture()
 {
 	//Initialize
@@ -395,15 +406,21 @@ bool loadMedia()
 	//Loading success flag
 	bool success = true;
 
+	if (!gBackgroundTexture.loadFromFile("CD/background.png"))
+	{
+		printf("Failed to load background texture image!\n");
+		success = false;
+	}
 	//Load press texture
 	if( !gDotTexture.loadFromFile( "CD/dot.bmp" ) )
 	{
 		printf( "Failed to load dot texture!\n" );
 		success = false;
 	}
-	if (!gBackgroundTexture.loadFromFile("Eg8/background.png"))
+
+	if( !gFooTexture.loadFromFile( "CD/foo2.png" ) )
 	{
-		printf("Failed to load background texture image!\n");
+		printf( "Failed to load foo texture!\n" );
 		success = false;
 	}
 
@@ -496,13 +513,15 @@ int main( int argc, char* args[] )
 			//The dot that will be moving around on the screen
 			Dot dot;
 
-			//Set the wall
-			SDL_Rect wall;
-			wall.x = 300;
-			wall.y = 40;
-			wall.w = 40;
-			wall.h = 400;
-			
+			// Set the wall
+			Obstacle obs[4];
+
+			obs[0].setObs(180, 190, 64, 111);
+			// obs[1].setObs(0, 111, 64, 111);
+			// obs[2].setObs(0, 222, 64, 111);
+			// obs[3].setObs(0, 333, 64, 111);
+
+
 			//While application is running
 			while( !quit )
 			{
@@ -520,19 +539,29 @@ int main( int argc, char* args[] )
 				}
 
 				//Move the dot and check collision
-				dot.move( wall );
+				dot.move( obs[0] );
+				// dot.move( obs[1] );
+				// dot.move( obs[2] );
+				// dot.move( obs[3] );
 
 				//Clear screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
+				//Render background texture to screen
+				gBackgroundTexture.render(0, 0);
 				//Render wall
-				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );		
-				SDL_RenderDrawRect( gRenderer, &wall );
+				// SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );		
+				// SDL_RenderDrawRect( gRenderer, &wall );
+				// gFooTexture.render(obs[1].x, obs[1].y);
+				// gFooTexture.render(obs[2].x, obs[2].y);
+				// gFooTexture.render(obs[3].x, obs[3].y);
+
 				
 				//Render dot
 				dot.render();
 
+				gFooTexture.render(obs[0].x, obs[0].y);
 				//Update screen
 				SDL_RenderPresent( gRenderer );
 			}

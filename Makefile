@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = $(CURDIR)/CD/27_collision_detection.cpp
+OBJS = $(CURDIR)/CD/cdnsp.cpp
 
 #CC specifies which compiler we're using
 CC = g++
