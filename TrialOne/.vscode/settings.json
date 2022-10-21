@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*html": "html",
+        "*njk": "html",
+        "iostream": "c",
+        "hello.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}
