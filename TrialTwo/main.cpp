@@ -72,7 +72,6 @@ int main(int argc, char *args[])
 
 			// The dot that will be moving around on the screen
 			Dot dot;
-			Dot dot2;
 
 			CollidibleObject tree1(20, 20);
 			CollidibleObject tree2(20, 52);

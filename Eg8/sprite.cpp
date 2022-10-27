@@ -207,7 +207,7 @@ bool loadMedia()
 	bool success = true;
 
 	// Load Foo' texture
-	if (!gFooTexture.loadFromFile("Eg8/foo2.png"))
+	if (!gFooTexture.loadFromFile("cEg8/foo2.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;

@@ -28,7 +28,6 @@ int main(int argc, char *args[])
 	// sayHello();
 	// Start up SDL and create window
 	if (!init())
-	{
 		printf("Failed to initialize!\n");
 	}
 	else
@@ -54,7 +53,7 @@ int main(int argc, char *args[])
 			wall.x = 300;
 			wall.y = 40;
 			wall.w = 40;
-			wall.h = 400;
+			wall.h = 400;k
 
 			// While application is running
 			while (!quit)

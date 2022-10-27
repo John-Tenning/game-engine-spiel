@@ -2,7 +2,8 @@
 OBJS = $(CURDIR)/main.cpp\
 	$(CURDIR)/LTexture.cpp\
 	$(CURDIR)/Dot.cpp\
-	$(CURDIR)/Basics.cpp
+	$(CURDIR)/Basics.cpp\
+	$(CURDIR)/CollidibleObject.cpp
 
 #CC specifies which compiler we're using
 CC = g++
