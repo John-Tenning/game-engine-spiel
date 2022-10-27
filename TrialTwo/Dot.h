@@ -29,6 +29,7 @@ public:
     // Moves the dot and checks collision
     void move(SDL_Rect &wall);
     void move(CollidibleObject &object);
+    void move(int argc, ...);
 
     // Shows the dot on the screen
     void render(LTexture &texture);

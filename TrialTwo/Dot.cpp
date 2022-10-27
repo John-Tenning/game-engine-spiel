@@ -2,6 +2,7 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <cstdarg>
 
 #include "common.h"
 #include "Basics.h"
@@ -115,6 +116,43 @@ void Dot::move(CollidibleObject &object)
 
     // If the dot collided or went too far up or down
     if ((mPosY < 0) || (mPosY + DOT_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, object.getColliderRect()))
+    {
+        // Move back
+        mPosY -= mVelY;
+        mCollider.y = mPosY;
+    }
+}
+
+void Dot::move(int argc, ...)
+{
+    // Move the dot left or right
+    mPosX += mVelX;
+    mCollider.x = mPosX;
+    bool isXCollided = (mPosX < 0) || (mPosX + DOT_WIDTH > SCREEN_WIDTH);
+
+    mPosY += mVelY;
+    mCollider.y = mPosY;
+    bool isYCollided = (mPosY < 0) || (mPosY + DOT_HEIGHT > SCREEN_HEIGHT);
+
+    va_list args;
+    va_start(args, argc);
+
+    for (int i = 0; i < argc; i++)
+    {
+        CollidibleObject obj = va_arg(args, CollidibleObject);
+        isXCollided = isXCollided || checkCollision(mCollider, obj.getColliderRect());
+        isYCollided = isYCollided || checkCollision(mCollider, obj.getColliderRect());
+    }
+    va_end(args);
+    // If the dot collided or went too far to the left or right
+    if (isXCollided)
+    {
+        // Move back
+        mPosX -= mVelX;
+        mCollider.x = mPosX;
+    }
+    // If the dot collided or went too far to the left or right
+    if (isYCollided)
     {
         // Move back
         mPosY -= mVelY;

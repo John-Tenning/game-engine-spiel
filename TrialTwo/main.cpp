@@ -1,6 +1,3 @@
-/*This source code copyrighted by Lazy Foo' Productions (2004-2022)
-and may not be redistributed without written permission.*/
-
 // Using SDL, SDL_image, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
@@ -37,7 +34,7 @@ bool loadMedia()
 		success = false;
 	}
 
-	if (!gTreeTexture.loadFromFile("assets/tree.png"))
+	if (!gTreeTexture.loadFromFile("assets/tree.png", 252, 2, 252))
 	{
 		printf("Failed to load tree texture!\n");
 		success = false;
@@ -80,13 +77,6 @@ int main(int argc, char *args[])
 			CollidibleObject tree1(20, 20);
 			CollidibleObject tree2(20, 52);
 
-			// Set the wall
-			SDL_Rect wall;
-			wall.x = 300;
-			wall.y = 40;
-			wall.w = 40;
-			wall.h = 400;
-
 			// While application is running
 			while (!quit)
 			{
@@ -104,19 +94,15 @@ int main(int argc, char *args[])
 				}
 
 				// Move the dot and check collision
-				dot.move(tree1);
+				dot.move(2, tree1, tree2);
 
 				// Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				SDL_RenderClear(gRenderer);
 
-				// Render wall
-				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
-				SDL_RenderDrawRect(gRenderer, &wall);
-
 				// Render dot
 				dot.render(gDotTexture);
-				dot2.render(gDotTexture);
+				// dot2.render(gDotTexture);
 				tree1.render(gTreeTexture);
 				tree2.render(gTreeTexture);
 

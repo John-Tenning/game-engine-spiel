@@ -18,6 +18,7 @@ public:
 
     // Loads image at specified path
     bool loadFromFile(std::string path);
+    bool loadFromFile(std::string path, int keyR, int keyG, int keyB);
 
 #if defined(SDL_TTF_MAJOR_VERSION)
     // Creates image from font string
@@ -51,6 +52,5 @@ private:
     int mWidth;
     int mHeight;
 };
-
 
 #endif
