@@ -3,12 +3,15 @@
 #include <stdio.h>
 #include <string>
 #include <cstdarg>
+#include <vector>
 
 #include "common.h"
 #include "Basics.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
 #include "Playable.h"
+
+using std::vector;
 
 Playable::Playable() : CollidibleObject()
 {
@@ -158,3 +161,37 @@ void Playable::move(int argc, ...)
         mCollider.y = mPosY;
     }
 }
+
+void Playable::move(vector<CollidibleObject> &objects){
+    // Move the dot left or right
+    mPosX += mVelX;
+    mCollider.x = mPosX;
+    bool isXCollided = (mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH);
+
+    mPosY += mVelY;
+    mCollider.y = mPosY;
+    bool isYCollided = (mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT);
+
+    int argc = objects.size();
+
+    for (int i = 0; i < argc; i++)
+    {
+        CollidibleObject obj = objects[i];
+        isXCollided = isXCollided || checkCollision(mCollider, obj.getColliderRect());
+        isYCollided = isYCollided || checkCollision(mCollider, obj.getColliderRect());
+    }
+    // If the dot collided or went too far to the left or right
+    if (isXCollided)
+    {
+        // Move back
+        mPosX -= mVelX;
+        mCollider.x = mPosX;
+    }
+    // If the dot collided or went too far to the left or right
+    if (isYCollided)
+    {
+        // Move back
+        mPosY -= mVelY;
+        mCollider.y = mPosY;
+    }
+};

@@ -3,12 +3,15 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include <vector>
 
 #include "common.h"
 #include "Basics.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
 #include "Playable.h"
+
+using std::vector;
 
 // Screen dimension constants
 int SCREEN_WIDTH = 640;
@@ -72,10 +75,16 @@ int main(int argc, char *args[])
 			SDL_Event e;
 
 			// The dot that will be moving around on the screen
-			Playable dot(100,100);
+			Playable dot(100, 100);
 
-			CollidibleObject tree1(20, 20);
-			CollidibleObject tree2(20, 52);
+			vector<CollidibleObject> trees;
+
+			int TREE_COUNT = 15;
+			for (int i = 0; i < TREE_COUNT; i++)
+			{
+				CollidibleObject tree(20, 20 + i * 20);
+				trees.push_back(tree);
+			}
 
 			// While application is running
 			while (!quit)
@@ -94,7 +103,7 @@ int main(int argc, char *args[])
 				}
 
 				// Move the dot and check collision
-				dot.move(2, tree1, tree2);
+				dot.move(trees);
 
 				// Clear screen
 				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -102,9 +111,10 @@ int main(int argc, char *args[])
 
 				// Render dot
 				dot.render(gDotTexture);
-				// dot2.render(gDotTexture);
-				tree1.render(gTreeTexture);
-				tree2.render(gTreeTexture);
+				for (int i = 0; i < TREE_COUNT; i++)
+				{
+					trees[i].render(gTreeTexture);
+				}
 
 				// Update screen
 				SDL_RenderPresent(gRenderer);

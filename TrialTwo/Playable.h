@@ -6,15 +6,18 @@
 #include <stdio.h>
 #include <string>
 #include <cstdarg>
+#include <vector>
 
 #include "common.h"
 #include "Basics.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
 
+using std::vector;
+
 class Playable : public CollidibleObject
 {
-    public:
+public:
     static const int OBJ_VEL = 2;
 
     Playable();
@@ -27,6 +30,7 @@ class Playable : public CollidibleObject
     void move(SDL_Rect &wall);
     void move(CollidibleObject &object);
     void move(int argc, ...);
+    void move(vector<CollidibleObject> &objects);
 
 protected:
     // The velocity of the dot
