@@ -7,8 +7,8 @@
 #include "common.h"
 #include "Basics.h"
 #include "LTexture.h"
-#include "Dot.h"
 #include "CollidibleObject.h"
+#include "Playable.h"
 
 // Screen dimension constants
 int SCREEN_WIDTH = 640;
@@ -46,6 +46,7 @@ bool loadMedia()
 void unloadMedia()
 {
 	gDotTexture.free();
+	gTreeTexture.free();
 }
 
 int main(int argc, char *args[])
@@ -71,7 +72,7 @@ int main(int argc, char *args[])
 			SDL_Event e;
 
 			// The dot that will be moving around on the screen
-			Dot dot;
+			Playable dot(100,100);
 
 			CollidibleObject tree1(20, 20);
 			CollidibleObject tree2(20, 52);

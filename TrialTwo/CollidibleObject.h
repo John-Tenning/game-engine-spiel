@@ -21,9 +21,9 @@ public:
     void render(LTexture &texture);
     SDL_Rect getColliderRect();
 
-private:
-    int mPosX, mPosY;
+protected:
     SDL_Rect mCollider;
+    int mPosX, mPosY;
 };
 
 #endif

@@ -1,9 +1,9 @@
 #OBJS specifies which files to compile as part of the project
 OBJS = $(CURDIR)/main.cpp\
 	$(CURDIR)/LTexture.cpp\
-	$(CURDIR)/Dot.cpp\
 	$(CURDIR)/Basics.cpp\
-	$(CURDIR)/CollidibleObject.cpp
+	$(CURDIR)/CollidibleObject.cpp\
+	$(CURDIR)/Playable.cpp
 
 #CC specifies which compiler we're using
 CC = g++

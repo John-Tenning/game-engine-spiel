@@ -7,25 +7,24 @@
 #include "common.h"
 #include "Basics.h"
 #include "LTexture.h"
-#include "Dot.h"
 #include "CollidibleObject.h"
+#include "Playable.h"
 
-Dot::Dot()
+Playable::Playable() : CollidibleObject()
 {
-    // Initialize the offsets
-    mPosX = 100;
-    mPosY = 10;
-
-    // Set collision box dimension
-    mCollider.w = DOT_WIDTH;
-    mCollider.h = DOT_HEIGHT;
-
     // Initialize the velocity
     mVelX = 0;
     mVelY = 0;
-}
+};
 
-void Dot::handleEvent(SDL_Event &e)
+Playable::Playable(int x, int y) : CollidibleObject(x, y)
+{
+    // Initialize the velocity
+    mVelX = 0;
+    mVelY = 0;
+};
+
+void Playable::handleEvent(SDL_Event &e)
 {
     // If a key was pressed
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
@@ -34,16 +33,16 @@ void Dot::handleEvent(SDL_Event &e)
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
-            mVelY -= DOT_VEL;
+            mVelY -= OBJ_VEL;
             break;
         case SDLK_DOWN:
-            mVelY += DOT_VEL;
+            mVelY += OBJ_VEL;
             break;
         case SDLK_LEFT:
-            mVelX -= DOT_VEL;
+            mVelX -= OBJ_VEL;
             break;
         case SDLK_RIGHT:
-            mVelX += DOT_VEL;
+            mVelX += OBJ_VEL;
             break;
         }
     }
@@ -54,29 +53,29 @@ void Dot::handleEvent(SDL_Event &e)
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
-            mVelY += DOT_VEL;
+            mVelY += OBJ_VEL;
             break;
         case SDLK_DOWN:
-            mVelY -= DOT_VEL;
+            mVelY -= OBJ_VEL;
             break;
         case SDLK_LEFT:
-            mVelX += DOT_VEL;
+            mVelX += OBJ_VEL;
             break;
         case SDLK_RIGHT:
-            mVelX -= DOT_VEL;
+            mVelX -= OBJ_VEL;
             break;
         }
     }
 }
 
-void Dot::move(SDL_Rect &wall)
+void Playable::move(SDL_Rect &wall)
 {
     // Move the dot left or right
     mPosX += mVelX;
     mCollider.x = mPosX;
 
     // If the dot collided or went too far to the left or right
-    if ((mPosX < 0) || (mPosX + DOT_WIDTH > SCREEN_WIDTH) || checkCollision(mCollider, wall))
+    if ((mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH) || checkCollision(mCollider, wall))
     {
         // Move back
         mPosX -= mVelX;
@@ -88,7 +87,7 @@ void Dot::move(SDL_Rect &wall)
     mCollider.y = mPosY;
 
     // If the dot collided or went too far up or down
-    if ((mPosY < 0) || (mPosY + DOT_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, wall))
+    if ((mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, wall))
     {
         // Move back
         mPosY -= mVelY;
@@ -96,14 +95,14 @@ void Dot::move(SDL_Rect &wall)
     }
 }
 
-void Dot::move(CollidibleObject &object)
+void Playable::move(CollidibleObject &object)
 {
     // Move the dot left or right
     mPosX += mVelX;
     mCollider.x = mPosX;
 
     // If the dot collided or went too far to the left or right
-    if ((mPosX < 0) || (mPosX + DOT_WIDTH > SCREEN_WIDTH) || checkCollision(mCollider, object.getColliderRect()))
+    if ((mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH) || checkCollision(mCollider, object.getColliderRect()))
     {
         // Move back
         mPosX -= mVelX;
@@ -115,7 +114,7 @@ void Dot::move(CollidibleObject &object)
     mCollider.y = mPosY;
 
     // If the dot collided or went too far up or down
-    if ((mPosY < 0) || (mPosY + DOT_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, object.getColliderRect()))
+    if ((mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, object.getColliderRect()))
     {
         // Move back
         mPosY -= mVelY;
@@ -123,16 +122,16 @@ void Dot::move(CollidibleObject &object)
     }
 }
 
-void Dot::move(int argc, ...)
+void Playable::move(int argc, ...)
 {
     // Move the dot left or right
     mPosX += mVelX;
     mCollider.x = mPosX;
-    bool isXCollided = (mPosX < 0) || (mPosX + DOT_WIDTH > SCREEN_WIDTH);
+    bool isXCollided = (mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH);
 
     mPosY += mVelY;
     mCollider.y = mPosY;
-    bool isYCollided = (mPosY < 0) || (mPosY + DOT_HEIGHT > SCREEN_HEIGHT);
+    bool isYCollided = (mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT);
 
     va_list args;
     va_start(args, argc);
@@ -158,10 +157,4 @@ void Dot::move(int argc, ...)
         mPosY -= mVelY;
         mCollider.y = mPosY;
     }
-}
-
-void Dot::render(LTexture &texture)
-{
-    // Show the dot
-    texture.render(mPosX, mPosY);
 }
