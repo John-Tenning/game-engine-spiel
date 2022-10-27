@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "*html": "html",
+        "*njk": "html",
+        "iostream": "c",
+        "hello.h": "c",
+        "type_traits": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}
