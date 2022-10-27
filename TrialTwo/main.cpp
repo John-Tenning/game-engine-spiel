@@ -24,6 +24,7 @@ SDL_Renderer *gRenderer = NULL;
 // Scene textures
 LTexture gDotTexture;
 LTexture gTreeTexture;
+LTexture gGroundTexture;
 
 bool loadMedia()
 {
@@ -44,6 +45,12 @@ bool loadMedia()
 		success = false;
 	}
 
+	if (!gGroundTexture.loadFromFile("assets/hjm-wasteland.png"))
+	{
+		printf("Failed to load ground texture!\n");
+		success = false;
+	}
+
 	return success;
 }
 
@@ -51,6 +58,7 @@ void unloadMedia()
 {
 	gDotTexture.free();
 	gTreeTexture.free();
+	gGroundTexture.free();
 }
 
 int main(int argc, char *args[])
@@ -77,7 +85,7 @@ int main(int argc, char *args[])
 
 			// The dot that will be moving around on the screen
 			Playable dot(100, 100);
-
+			
 			vector<CollidibleObject> trees;
 
 			int TREE_COUNT = 15;
@@ -109,9 +117,10 @@ int main(int argc, char *args[])
 				// Clear screen
 				SPIEL_clearScreen();
 
+				gGroundTexture.render(0, 0);
 				// Render dot
 				dot.render(gDotTexture);
-				for (int i = 0; i < TREE_COUNT; i++)
+				for (int i = 0; i < trees.size(); i++)
 				{
 					trees[i].render(gTreeTexture);
 				}

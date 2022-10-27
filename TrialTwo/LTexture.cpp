@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <string>
 
+#include "Common.h"
+#include "Spiel.h"
 #include "LTexture.h"
-#include "common.h"
 
 LTexture::LTexture()
 {
