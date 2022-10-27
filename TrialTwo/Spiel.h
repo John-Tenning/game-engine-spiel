@@ -1,23 +1,22 @@
-#ifndef __BASICS_H__
-#define __BASICS_H__
+#ifndef __SPIEL_H__
+#define __SPIEL_H__
 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
 
-#include "Basics.h"
+#include "Spiel.h"
 
 // Starts up SDL and creates window
-bool init();
-
-// Loads media
-bool loadMedia();
+bool SPIEL_init();
 
 // Frees media and shuts down SDL
-void close();
+void SPIEL_close();
 
 // Box collision detector
-bool checkCollision(SDL_Rect a, SDL_Rect b);
+bool SPIEL_checkCollision(SDL_Rect a, SDL_Rect b);
+
+void SPIEL_clearScreen();
 
 #endif

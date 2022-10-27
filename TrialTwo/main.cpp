@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "common.h"
-#include "Basics.h"
+#include "Spiel.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
 #include "Playable.h"
@@ -37,6 +37,7 @@ bool loadMedia()
 		success = false;
 	}
 
+	// Load tree texture with keying
 	if (!gTreeTexture.loadFromFile("assets/tree.png", 252, 2, 252))
 	{
 		printf("Failed to load tree texture!\n");
@@ -56,7 +57,7 @@ int main(int argc, char *args[])
 {
 	// sayHello();
 	// Start up SDL and create window
-	if (!init())
+	if (!SPIEL_init())
 		printf("Failed to initialize!\n");
 
 	else
@@ -106,8 +107,7 @@ int main(int argc, char *args[])
 				dot.move(trees);
 
 				// Clear screen
-				SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				SDL_RenderClear(gRenderer);
+				SPIEL_clearScreen();
 
 				// Render dot
 				dot.render(gDotTexture);
@@ -125,7 +125,7 @@ int main(int argc, char *args[])
 	// Free resources and media
 	unloadMedia();
 	// Free resources and close SDL
-	close();
+	SPIEL_close();
 
 	return 0;
 }

@@ -4,9 +4,9 @@
 #include <string>
 
 #include "Common.h"
-#include "Basics.h"
+#include "Spiel.h"
 
-bool init()
+bool SPIEL_init()
 {
     // Initialization flag
     bool success = true;
@@ -60,7 +60,7 @@ bool init()
     return success;
 }
 
-void close()
+void SPIEL_close()
 {
     // Destroy window
     SDL_DestroyRenderer(gRenderer);
@@ -73,7 +73,7 @@ void close()
     SDL_Quit();
 }
 
-bool checkCollision(SDL_Rect a, SDL_Rect b)
+bool SPIEL_checkCollision(SDL_Rect a, SDL_Rect b)
 {
     // The sides of the rectangles
     int leftA, leftB;
@@ -116,4 +116,12 @@ bool checkCollision(SDL_Rect a, SDL_Rect b)
 
     // If none of the sides from A are outside B
     return true;
+}
+
+void SPIEL_clearScreen()
+{
+
+    // Clear screen
+    SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderClear(gRenderer);
 }

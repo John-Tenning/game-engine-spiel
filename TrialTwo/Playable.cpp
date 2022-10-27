@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "common.h"
-#include "Basics.h"
+#include "Spiel.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
 #include "Playable.h"
@@ -78,7 +78,7 @@ void Playable::move(SDL_Rect &wall)
     mCollider.x = mPosX;
 
     // If the dot collided or went too far to the left or right
-    if ((mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH) || checkCollision(mCollider, wall))
+    if ((mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH) || SPIEL_checkCollision(mCollider, wall))
     {
         // Move back
         mPosX -= mVelX;
@@ -90,7 +90,7 @@ void Playable::move(SDL_Rect &wall)
     mCollider.y = mPosY;
 
     // If the dot collided or went too far up or down
-    if ((mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, wall))
+    if ((mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT) || SPIEL_checkCollision(mCollider, wall))
     {
         // Move back
         mPosY -= mVelY;
@@ -105,7 +105,7 @@ void Playable::move(CollidibleObject &object)
     mCollider.x = mPosX;
 
     // If the dot collided or went too far to the left or right
-    if ((mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH) || checkCollision(mCollider, object.getColliderRect()))
+    if ((mPosX < 0) || (mPosX + OBJ_WIDTH > SCREEN_WIDTH) || SPIEL_checkCollision(mCollider, object.getColliderRect()))
     {
         // Move back
         mPosX -= mVelX;
@@ -117,7 +117,7 @@ void Playable::move(CollidibleObject &object)
     mCollider.y = mPosY;
 
     // If the dot collided or went too far up or down
-    if ((mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT) || checkCollision(mCollider, object.getColliderRect()))
+    if ((mPosY < 0) || (mPosY + OBJ_HEIGHT > SCREEN_HEIGHT) || SPIEL_checkCollision(mCollider, object.getColliderRect()))
     {
         // Move back
         mPosY -= mVelY;
@@ -142,8 +142,8 @@ void Playable::move(int argc, ...)
     for (int i = 0; i < argc; i++)
     {
         CollidibleObject obj = va_arg(args, CollidibleObject);
-        isXCollided = isXCollided || checkCollision(mCollider, obj.getColliderRect());
-        isYCollided = isYCollided || checkCollision(mCollider, obj.getColliderRect());
+        isXCollided = isXCollided || SPIEL_checkCollision(mCollider, obj.getColliderRect());
+        isYCollided = isYCollided || SPIEL_checkCollision(mCollider, obj.getColliderRect());
     }
     va_end(args);
     // If the dot collided or went too far to the left or right
@@ -177,8 +177,8 @@ void Playable::move(vector<CollidibleObject> &objects){
     for (int i = 0; i < argc; i++)
     {
         CollidibleObject obj = objects[i];
-        isXCollided = isXCollided || checkCollision(mCollider, obj.getColliderRect());
-        isYCollided = isYCollided || checkCollision(mCollider, obj.getColliderRect());
+        isXCollided = isXCollided || SPIEL_checkCollision(mCollider, obj.getColliderRect());
+        isYCollided = isYCollided || SPIEL_checkCollision(mCollider, obj.getColliderRect());
     }
     // If the dot collided or went too far to the left or right
     if (isXCollided)

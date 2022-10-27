@@ -1,7 +1,7 @@
 #OBJS specifies which files to compile as part of the project
 OBJS = $(CURDIR)/main.cpp\
 	$(CURDIR)/LTexture.cpp\
-	$(CURDIR)/Basics.cpp\
+	$(CURDIR)/Spiel.cpp\
 	$(CURDIR)/CollidibleObject.cpp\
 	$(CURDIR)/Playable.cpp
 

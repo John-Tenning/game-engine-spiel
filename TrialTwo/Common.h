@@ -8,7 +8,7 @@
 
 #include "LTexture.h"
 
-extern SDL_Renderer *gRenderer;
+extern SDL_Renderer *gRenderer ;
 extern SDL_Window *gWindow;
 extern int SCREEN_WIDTH;
 extern int SCREEN_HEIGHT;
