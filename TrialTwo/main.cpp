@@ -26,6 +26,12 @@ LTexture gDotTexture;
 LTexture gTreeTexture;
 LTexture gGroundTexture;
 
+const int FRAME_SPEED = 10;
+
+const int WALKING_ANIMATION_FRAMES = 4;
+SDL_Rect gSpriteClips[WALKING_ANIMATION_FRAMES];
+LTexture gSpriteSheetTexture;
+
 bool loadMedia()
 {
 	// Loading success flag
@@ -51,11 +57,42 @@ bool loadMedia()
 		success = false;
 	}
 
+	// Load sprite sheet texture
+	if (!gSpriteSheetTexture.loadFromFile("assets/foo.png"))
+	{
+		printf("Failed to load walking animation texture!\n");
+		success = false;
+	}
+	else
+	{
+		// Set sprite clips
+		gSpriteClips[0].x = 0;
+		gSpriteClips[0].y = 0;
+		gSpriteClips[0].w = 64;
+		gSpriteClips[0].h = 205;
+
+		gSpriteClips[1].x = 64;
+		gSpriteClips[1].y = 0;
+		gSpriteClips[1].w = 64;
+		gSpriteClips[1].h = 205;
+
+		gSpriteClips[2].x = 128;
+		gSpriteClips[2].y = 0;
+		gSpriteClips[2].w = 64;
+		gSpriteClips[2].h = 205;
+
+		gSpriteClips[3].x = 192;
+		gSpriteClips[3].y = 0;
+		gSpriteClips[3].w = 64;
+		gSpriteClips[3].h = 205;
+	}
+
 	return success;
 }
 
 void unloadMedia()
 {
+	gSpriteSheetTexture.free();
 	gDotTexture.free();
 	gTreeTexture.free();
 	gGroundTexture.free();
@@ -95,6 +132,9 @@ int main(int argc, char *args[])
 				trees.push_back(tree);
 			}
 
+			// Current animation frame
+			int frame = 0;
+
 			// While application is running
 			while (!quit)
 			{
@@ -117,7 +157,10 @@ int main(int argc, char *args[])
 				// Clear screen
 				SPIEL_clearScreen();
 
-				gGroundTexture.render(0, 0);
+				SDL_Rect *currentClip = &gSpriteClips[frame / FRAME_SPEED];
+				gSpriteSheetTexture.render((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
+
+				// gGroundTexture.render(0, 0);
 				// Render dot
 				dot.render(gDotTexture);
 				for (int i = 0; i < trees.size(); i++)
@@ -127,6 +170,15 @@ int main(int argc, char *args[])
 
 				// Update screen
 				SDL_RenderPresent(gRenderer);
+
+				// Go to next frame
+				++frame;
+
+				// Cycle animation
+				if (frame / FRAME_SPEED >= WALKING_ANIMATION_FRAMES)
+				{
+					frame = 0;
+				}
 			}
 		}
 	}
