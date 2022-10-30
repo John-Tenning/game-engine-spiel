@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
+#include <iostream>
 #include <string>
 #include <cstdarg>
 #include <vector>
@@ -19,7 +20,7 @@ Playable::Playable() : CollidibleObject()
     // Initialize the velocity
     mVelX = 0;
     mVelY = 0;
-    currentEvent = "LEFT_WALK"; 
+    currentEvent = "LEFT_STALL";
 };
 
 Playable::Playable(int x, int y) : CollidibleObject(x, y)
@@ -27,7 +28,7 @@ Playable::Playable(int x, int y) : CollidibleObject(x, y)
     // Initialize the velocity
     mVelX = 0;
     mVelY = 0;
-    currentEvent = "LEFT_WALK";
+    currentEvent = "LEFT_STALL";
 };
 
 void Playable::handleEvent(SDL_Event &e)
@@ -39,19 +40,19 @@ void Playable::handleEvent(SDL_Event &e)
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
+            currentEvent = "UP_WALK";
             mVelY -= OBJ_VEL;
             break;
         case SDLK_DOWN:
+            currentEvent = "DOWN_WALK";
             mVelY += OBJ_VEL;
             break;
         case SDLK_LEFT:
             currentEvent = "LEFT_WALK";
-            printf("Event changed: %s\n", currentEvent.c_str());
             mVelX -= OBJ_VEL;
             break;
         case SDLK_RIGHT:
             currentEvent = "RIGHT_WALK";
-            printf("Event changed: %s\n", currentEvent.c_str());
             mVelX += OBJ_VEL;
             break;
         }
@@ -63,19 +64,24 @@ void Playable::handleEvent(SDL_Event &e)
         switch (e.key.keysym.sym)
         {
         case SDLK_UP:
+            currentEvent = "UP_STALL";
             mVelY += OBJ_VEL;
             break;
         case SDLK_DOWN:
+            currentEvent = "DOWN_STALL";
             mVelY -= OBJ_VEL;
             break;
         case SDLK_LEFT:
+            currentEvent = "LEFT_STALL";
             mVelX += OBJ_VEL;
             break;
         case SDLK_RIGHT:
+            currentEvent = "RIGHT_STALL";
             mVelX -= OBJ_VEL;
             break;
         }
     }
+    printf("Event changed: %s\n", currentEvent.c_str());
 }
 
 void Playable::move(SDL_Rect &wall)
@@ -206,24 +212,18 @@ void Playable::move(vector<CollidibleObject> &objects)
 
 void Playable::bindTexture(AnimatedTexture &texture)
 {
-    textureMap.insert({"STALL", texture});
+    textureMap.insert({"STALL", &texture});
+    currentTexture = &texture;
 }
 
 void Playable::bindTexture(std::string event, AnimatedTexture &texture)
 {
-    textureMap.insert({event, texture});
+
+    textureMap.insert({event, &texture});
+    currentTexture = &texture;
 }
 
 void Playable::render()
 {
-    try
-    {
-        printf("Current Event: %s\n", currentEvent.c_str());
-
-        std::get<AnimatedTexture>(textureMap.at("LEFT_WALK")).render(mPosX, mPosY);
-    }
-    catch (...)
-    {
-        printf("Error: Texture not found\n");
-    }
+    textureMap.at(currentEvent)->render(mPosX, mPosY);
 }

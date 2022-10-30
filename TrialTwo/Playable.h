@@ -24,7 +24,9 @@ public:
 
     std::string currentEvent;
 
-    std::map<std::string, std::variant<LTexture, AnimatedTexture>> textureMap;
+    std::map<std::string, AnimatedTexture*> textureMap;
+    AnimatedTexture *currentTexture;
+    // vector<AnimatedTexture> textureClips;
 
     Playable();
     Playable(int x, int y);

@@ -29,6 +29,12 @@ LTexture gTreeTexture;
 LTexture gGroundTexture;
 AnimatedTexture gPlayerLeftWalkTexture;
 AnimatedTexture gPlayerRightWalkTexture;
+AnimatedTexture gPlayerUpWalkTexture;
+AnimatedTexture gPlayerDownWalkTexture;
+AnimatedTexture gPlayerLeftIdleTexture;
+AnimatedTexture gPlayerRightIdleTexture;
+AnimatedTexture gPlayerUpIdleTexture;
+AnimatedTexture gPlayerDownIdleTexture;
 
 bool loadMedia()
 {
@@ -77,6 +83,72 @@ bool loadMedia()
 		gPlayerRightWalkTexture.setValues(15, 4, 24, 32, 48, 32);
 	}
 
+	if (!gPlayerUpWalkTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerUpWalkTexture.setValues(15, 4, 24, 32, 48, 0);
+	}
+
+	if (!gPlayerDownWalkTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerDownWalkTexture.setValues(15, 4, 24, 32, 48, 64);
+	}
+
+	if (!gPlayerLeftIdleTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerLeftIdleTexture.setValues(15, 1, 24, 32, 0, 96);
+	}
+
+	if (!gPlayerRightIdleTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerRightIdleTexture.setValues(15, 1, 24, 32, 0, 32);
+	}
+
+	if (!gPlayerUpIdleTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerUpIdleTexture.setValues(15, 1, 24, 32, 0, 0);
+	}
+
+	if (!gPlayerDownIdleTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerDownIdleTexture.setValues(15, 1, 24, 32, 0, 64);
+	}
+
 	if (success)
 	{
 		printf("Media loaded successfully!\n");
@@ -92,7 +164,7 @@ void unloadMedia()
 	gTreeTexture.free();
 	gGroundTexture.free();
 	gPlayerLeftWalkTexture.free();
-	gPlayerRightWalkTexture.free();	
+	gPlayerRightWalkTexture.free();
 }
 
 int main(int argc, char *args[])
@@ -120,6 +192,13 @@ int main(int argc, char *args[])
 			Playable player(100, 100);
 			player.bindTexture("LEFT_WALK", gPlayerLeftWalkTexture);
 			player.bindTexture("RIGHT_WALK", gPlayerRightWalkTexture);
+			player.bindTexture("UP_WALK", gPlayerUpWalkTexture);
+			player.bindTexture("DOWN_WALK", gPlayerDownWalkTexture);
+			player.bindTexture("LEFT_STALL", gPlayerLeftIdleTexture);
+			player.bindTexture("RIGHT_STALL", gPlayerRightIdleTexture);
+			player.bindTexture("UP_STALL", gPlayerUpIdleTexture);
+			player.bindTexture("DOWN_STALL", gPlayerDownIdleTexture);
+
 
 			vector<CollidibleObject> trees;
 

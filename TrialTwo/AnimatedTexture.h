@@ -25,6 +25,7 @@ public:
     int fWidth;
 
     vector<SDL_Rect> spriteClips;
+    
 
     AnimatedTexture();
 
