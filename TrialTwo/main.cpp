@@ -28,7 +28,7 @@ LTexture gDotTexture;
 LTexture gTreeTexture;
 LTexture gGroundTexture;
 AnimatedTexture gPlayerLeftWalkTexture;
-// AnimatedTexture gPlayerRightWalkTexture(1);
+AnimatedTexture gPlayerRightWalkTexture;
 
 bool loadMedia()
 {
@@ -57,18 +57,25 @@ bool loadMedia()
 
 	if (!gPlayerLeftWalkTexture.loadFromFile("assets/Fumiko.png"))
 	{
-		gPlayerLeftWalkTexture.setValues(15, 4, 24, 32, 48, 96);
 		printf("Failed to load player texture!\n");
 		success = false;
 	}
+	else
+	{
 
-	// if (!gPlayerRightWalkTexture.loadFromFile("assets/Fumiko.png"))
-	// {
+		gPlayerLeftWalkTexture.setValues(15, 4, 24, 32, 48, 96);
+	}
 
-	// 	gPlayerRightWalkTexture.setValues(15, 4, 24, 32, 48, 32);
-	// 	printf("Failed to load player texture!\n");
-	// 	success = false;
-	// }
+	if (!gPlayerRightWalkTexture.loadFromFile("assets/Fumiko.png"))
+	{
+
+		printf("Failed to load player texture!\n");
+		success = false;
+	}
+	else
+	{
+		gPlayerRightWalkTexture.setValues(15, 4, 24, 32, 48, 32);
+	}
 
 	if (success)
 	{
@@ -85,6 +92,7 @@ void unloadMedia()
 	gTreeTexture.free();
 	gGroundTexture.free();
 	gPlayerLeftWalkTexture.free();
+	gPlayerRightWalkTexture.free();	
 }
 
 int main(int argc, char *args[])
@@ -110,6 +118,8 @@ int main(int argc, char *args[])
 
 			// The dot that will be moving around on the screen
 			Playable player(100, 100);
+			player.bindTexture("LEFT_WALK", gPlayerLeftWalkTexture);
+			player.bindTexture("RIGHT_WALK", gPlayerRightWalkTexture);
 
 			vector<CollidibleObject> trees;
 
@@ -143,7 +153,7 @@ int main(int argc, char *args[])
 				SPIEL_refreshScreen();
 
 				// Render dot
-				player.render(gPlayerLeftWalkTexture);
+				player.render();
 				for (int i = 0; i < trees.size(); i++)
 				{
 					trees[i].render(gTreeTexture);

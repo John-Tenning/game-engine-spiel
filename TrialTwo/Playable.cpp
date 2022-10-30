@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdarg>
 #include <vector>
+#include <variant>
 
 #include "common.h"
 #include "Spiel.h"
@@ -18,6 +19,7 @@ Playable::Playable() : CollidibleObject()
     // Initialize the velocity
     mVelX = 0;
     mVelY = 0;
+    currentEvent = "LEFT_WALK"; 
 };
 
 Playable::Playable(int x, int y) : CollidibleObject(x, y)
@@ -25,6 +27,7 @@ Playable::Playable(int x, int y) : CollidibleObject(x, y)
     // Initialize the velocity
     mVelX = 0;
     mVelY = 0;
+    currentEvent = "LEFT_WALK";
 };
 
 void Playable::handleEvent(SDL_Event &e)
@@ -42,9 +45,13 @@ void Playable::handleEvent(SDL_Event &e)
             mVelY += OBJ_VEL;
             break;
         case SDLK_LEFT:
+            currentEvent = "LEFT_WALK";
+            printf("Event changed: %s\n", currentEvent.c_str());
             mVelX -= OBJ_VEL;
             break;
         case SDLK_RIGHT:
+            currentEvent = "RIGHT_WALK";
+            printf("Event changed: %s\n", currentEvent.c_str());
             mVelX += OBJ_VEL;
             break;
         }
@@ -196,3 +203,27 @@ void Playable::move(vector<CollidibleObject> &objects)
         mCollider.y = mPosY;
     }
 };
+
+void Playable::bindTexture(AnimatedTexture &texture)
+{
+    textureMap.insert({"STALL", texture});
+}
+
+void Playable::bindTexture(std::string event, AnimatedTexture &texture)
+{
+    textureMap.insert({event, texture});
+}
+
+void Playable::render()
+{
+    try
+    {
+        printf("Current Event: %s\n", currentEvent.c_str());
+
+        std::get<AnimatedTexture>(textureMap.at("LEFT_WALK")).render(mPosX, mPosY);
+    }
+    catch (...)
+    {
+        printf("Error: Texture not found\n");
+    }
+}

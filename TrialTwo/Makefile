@@ -4,10 +4,10 @@ OBJS = $(CURDIR)/main.cpp\
 	$(CURDIR)/Spiel.cpp\
 	$(CURDIR)/CollidibleObject.cpp\
 	$(CURDIR)/Playable.cpp\
-	$(CURDIR)/AnimatedTexture.cpp\
+	$(CURDIR)/AnimatedTexture.cpp
 
 #CC specifies which compiler we're using
-CC = g++
+CC = g++ -std=c++17
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
 INCLUDE_PATHS = -I${CURDIR}/../mingw-lib/include/SDL2 -I${CURDIR}
@@ -18,8 +18,8 @@ LIBRARY_PATHS = -L${CURDIR}/../mingw-lib/lib
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
 # -Wl,-subsystem,windows gets rid of the console window
-COMPILER_FLAGS = -w -Wl,-subsystem,windows
-# COMPILER_FLAGS = 
+# COMPILER_FLAGS = -w -Wl,-subsystem,windows
+COMPILER_FLAGS = 
 
 
 #LINKER_FLAGS specifies the libraries we're linking against

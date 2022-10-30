@@ -7,6 +7,8 @@
 #include <string>
 #include <cstdarg>
 #include <vector>
+#include <variant>
+#include <map>
 
 #include "common.h"
 #include "Spiel.h"
@@ -20,6 +22,10 @@ class Playable : public CollidibleObject
 public:
     static const int OBJ_VEL = 2;
 
+    std::string currentEvent;
+
+    std::map<std::string, std::variant<LTexture, AnimatedTexture>> textureMap;
+
     Playable();
     Playable(int x, int y);
 
@@ -31,6 +37,13 @@ public:
     void move(CollidibleObject &object);
     void move(int argc, ...);
     void move(vector<CollidibleObject> &objects);
+
+    void bindTexture(LTexture &texture);
+    void bindTexture(AnimatedTexture &texture);
+    void bindTexture(std::string event, LTexture &texture);
+    void bindTexture(std::string event, AnimatedTexture &texture);
+
+    void render();
 
 protected:
     // The velocity of the dot
