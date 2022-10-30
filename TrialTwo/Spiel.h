@@ -17,6 +17,6 @@ void SPIEL_close();
 // Box collision detector
 bool SPIEL_checkCollision(SDL_Rect a, SDL_Rect b);
 
-void SPIEL_clearScreen();
+void SPIEL_refreshScreen();
 
 #endif

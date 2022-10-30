@@ -5,11 +5,12 @@
 #include <string>
 #include <vector>
 
-#include "common.h"
+#include "Common.h"
 #include "Spiel.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
 #include "Playable.h"
+#include "AnimatedTexture.h"
 
 using std::vector;
 
@@ -20,17 +21,14 @@ int SCREEN_HEIGHT = 480;
 SDL_Window *gWindow = NULL;
 // The window renderer
 SDL_Renderer *gRenderer = NULL;
+int timeFrame = 0;
 
 // Scene textures
 LTexture gDotTexture;
 LTexture gTreeTexture;
 LTexture gGroundTexture;
-
-const int FRAME_SPEED = 10;
-
-const int WALKING_ANIMATION_FRAMES = 4;
-SDL_Rect gSpriteClips[WALKING_ANIMATION_FRAMES];
-LTexture gSpriteSheetTexture;
+AnimatedTexture gPlayerLeftWalkTexture;
+// AnimatedTexture gPlayerRightWalkTexture(1);
 
 bool loadMedia()
 {
@@ -57,34 +55,24 @@ bool loadMedia()
 		success = false;
 	}
 
-	// Load sprite sheet texture
-	if (!gSpriteSheetTexture.loadFromFile("assets/foo.png"))
+	if (!gPlayerLeftWalkTexture.loadFromFile("assets/Fumiko.png"))
 	{
-		printf("Failed to load walking animation texture!\n");
+		gPlayerLeftWalkTexture.setValues(15, 4, 24, 32, 48, 96);
+		printf("Failed to load player texture!\n");
 		success = false;
 	}
-	else
+
+	// if (!gPlayerRightWalkTexture.loadFromFile("assets/Fumiko.png"))
+	// {
+
+	// 	gPlayerRightWalkTexture.setValues(15, 4, 24, 32, 48, 32);
+	// 	printf("Failed to load player texture!\n");
+	// 	success = false;
+	// }
+
+	if (success)
 	{
-		// Set sprite clips
-		gSpriteClips[0].x = 0;
-		gSpriteClips[0].y = 0;
-		gSpriteClips[0].w = 64;
-		gSpriteClips[0].h = 205;
-
-		gSpriteClips[1].x = 64;
-		gSpriteClips[1].y = 0;
-		gSpriteClips[1].w = 64;
-		gSpriteClips[1].h = 205;
-
-		gSpriteClips[2].x = 128;
-		gSpriteClips[2].y = 0;
-		gSpriteClips[2].w = 64;
-		gSpriteClips[2].h = 205;
-
-		gSpriteClips[3].x = 192;
-		gSpriteClips[3].y = 0;
-		gSpriteClips[3].w = 64;
-		gSpriteClips[3].h = 205;
+		printf("Media loaded successfully!\n");
 	}
 
 	return success;
@@ -92,15 +80,15 @@ bool loadMedia()
 
 void unloadMedia()
 {
-	gSpriteSheetTexture.free();
+	// gSpriteSheetTexture.free();
 	gDotTexture.free();
 	gTreeTexture.free();
 	gGroundTexture.free();
+	gPlayerLeftWalkTexture.free();
 }
 
 int main(int argc, char *args[])
 {
-	// sayHello();
 	// Start up SDL and create window
 	if (!SPIEL_init())
 		printf("Failed to initialize!\n");
@@ -121,8 +109,8 @@ int main(int argc, char *args[])
 			SDL_Event e;
 
 			// The dot that will be moving around on the screen
-			Playable dot(100, 100);
-			
+			Playable player(100, 100);
+
 			vector<CollidibleObject> trees;
 
 			int TREE_COUNT = 15;
@@ -131,9 +119,6 @@ int main(int argc, char *args[])
 				CollidibleObject tree(20, 20 + i * 20);
 				trees.push_back(tree);
 			}
-
-			// Current animation frame
-			int frame = 0;
 
 			// While application is running
 			while (!quit)
@@ -148,21 +133,17 @@ int main(int argc, char *args[])
 					}
 
 					// Handle input for the dot
-					dot.handleEvent(e);
+					player.handleEvent(e);
 				}
 
 				// Move the dot and check collision
-				dot.move(trees);
+				player.move(trees);
 
 				// Clear screen
-				SPIEL_clearScreen();
+				SPIEL_refreshScreen();
 
-				SDL_Rect *currentClip = &gSpriteClips[frame / FRAME_SPEED];
-				gSpriteSheetTexture.render((SCREEN_WIDTH - currentClip->w) / 2, (SCREEN_HEIGHT - currentClip->h) / 2, currentClip);
-
-				// gGroundTexture.render(0, 0);
 				// Render dot
-				dot.render(gDotTexture);
+				player.render(gPlayerLeftWalkTexture);
 				for (int i = 0; i < trees.size(); i++)
 				{
 					trees[i].render(gTreeTexture);
@@ -170,15 +151,6 @@ int main(int argc, char *args[])
 
 				// Update screen
 				SDL_RenderPresent(gRenderer);
-
-				// Go to next frame
-				++frame;
-
-				// Cycle animation
-				if (frame / FRAME_SPEED >= WALKING_ANIMATION_FRAMES)
-				{
-					frame = 0;
-				}
 			}
 		}
 	}

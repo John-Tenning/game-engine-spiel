@@ -8,8 +8,12 @@
 
 bool SPIEL_init()
 {
+    
+    timeFrame = 0;
+
     // Initialization flag
     bool success = true;
+
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -118,9 +122,9 @@ bool SPIEL_checkCollision(SDL_Rect a, SDL_Rect b)
     return true;
 }
 
-void SPIEL_clearScreen()
+void SPIEL_refreshScreen()
 {
-
+    ++timeFrame;
     // Clear screen
     SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(gRenderer);

@@ -7,6 +7,7 @@
 #include <string>
 
 #include "LTexture.h"
+#include "AnimatedTexture.h"
 
 class CollidibleObject
 {
@@ -19,6 +20,7 @@ public:
 
     void setColliderCoords(int x, int y);
     void render(LTexture &texture);
+    void render(AnimatedTexture &texture);
     SDL_Rect getColliderRect();
 
 protected:

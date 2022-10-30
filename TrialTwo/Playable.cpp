@@ -162,7 +162,8 @@ void Playable::move(int argc, ...)
     }
 }
 
-void Playable::move(vector<CollidibleObject> &objects){
+void Playable::move(vector<CollidibleObject> &objects)
+{
     // Move the dot left or right
     mPosX += mVelX;
     mCollider.x = mPosX;

@@ -3,7 +3,8 @@ OBJS = $(CURDIR)/main.cpp\
 	$(CURDIR)/LTexture.cpp\
 	$(CURDIR)/Spiel.cpp\
 	$(CURDIR)/CollidibleObject.cpp\
-	$(CURDIR)/Playable.cpp
+	$(CURDIR)/Playable.cpp\
+	$(CURDIR)/AnimatedTexture.cpp\
 
 #CC specifies which compiler we're using
 CC = g++
@@ -18,6 +19,8 @@ LIBRARY_PATHS = -L${CURDIR}/../mingw-lib/lib
 # -w suppresses all warnings
 # -Wl,-subsystem,windows gets rid of the console window
 COMPILER_FLAGS = -w -Wl,-subsystem,windows
+# COMPILER_FLAGS = 
+
 
 #LINKER_FLAGS specifies the libraries we're linking against
 LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image

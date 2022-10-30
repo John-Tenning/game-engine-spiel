@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <string>
 
+#include "Common.h"
+
 // Texture wrapper class
 class LTexture
 {

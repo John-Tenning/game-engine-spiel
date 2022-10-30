@@ -8,6 +8,7 @@
 
 #include "LTexture.h"
 
+extern int timeFrame;
 extern SDL_Renderer *gRenderer ;
 extern SDL_Window *gWindow;
 extern int SCREEN_WIDTH;

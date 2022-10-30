@@ -7,6 +7,7 @@
 #include "Spiel.h"
 #include "LTexture.h"
 #include "CollidibleObject.h"
+#include "AnimatedTexture.h"
 
 CollidibleObject::CollidibleObject()
 {
@@ -37,6 +38,11 @@ CollidibleObject::CollidibleObject(int x, int y)
 void CollidibleObject::render(LTexture &texture)
 {
     // Show the dot
+    texture.render(mPosX, mPosY);
+}
+
+void CollidibleObject::render(AnimatedTexture &texture)
+{
     texture.render(mPosX, mPosY);
 }
 
