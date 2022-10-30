@@ -2,7 +2,7 @@
 OBJS = $(CURDIR)/TrialOne/cdone.cpp
 
 #CC specifies which compiler we're using
-CC = g++
+CC = g++ -std=c++17
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
 INCLUDE_PATHS = -I${CURDIR}/mingw-lib/include/SDL2
@@ -23,4 +23,4 @@ OBJ_NAME = $(CURDIR)/op.exe
 
 #This is the target that compiles our executable
 all : $(OBJS)
-	$(CC) $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+	$(CC)  $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)

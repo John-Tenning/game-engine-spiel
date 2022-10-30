@@ -3,6 +3,7 @@
         "*html": "html",
         "*njk": "html",
         "electricitybill.h": "c",
-        "mainelectricitybill.h": "c"
+        "mainelectricitybill.h": "c",
+        "variant": "cpp"
     }
 }
