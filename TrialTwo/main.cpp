@@ -36,6 +36,9 @@ AnimatedTexture gPlayerRightIdleTexture;
 AnimatedTexture gPlayerUpIdleTexture;
 AnimatedTexture gPlayerDownIdleTexture;
 
+AnimatedTexture gFireTexture;
+AnimatedTexture gBlueFireTexture;
+
 bool loadMedia()
 {
 	// Loading success flag
@@ -59,17 +62,6 @@ bool loadMedia()
 	{
 		printf("Failed to load ground texture!\n");
 		success = false;
-	}
-
-	if (!gPlayerLeftWalkTexture.loadFromFile("assets/Fumiko.png"))
-	{
-		printf("Failed to load player texture!\n");
-		success = false;
-	}
-	else
-	{
-
-		gPlayerLeftWalkTexture.setValues(15, 4, 24, 32, 48, 96);
 	}
 
 	if (!gPlayerRightWalkTexture.loadFromFile("assets/Fumiko.png"))
@@ -165,6 +157,12 @@ void unloadMedia()
 	gGroundTexture.free();
 	gPlayerLeftWalkTexture.free();
 	gPlayerRightWalkTexture.free();
+	gPlayerUpWalkTexture.free();
+	gPlayerDownWalkTexture.free();
+	gPlayerLeftIdleTexture.free();
+	gPlayerRightIdleTexture.free();
+	gPlayerUpIdleTexture.free();
+	gPlayerDownIdleTexture.free();
 }
 
 int main(int argc, char *args[])
@@ -199,15 +197,37 @@ int main(int argc, char *args[])
 			player.bindTexture("UP_STALL", gPlayerUpIdleTexture);
 			player.bindTexture("DOWN_STALL", gPlayerDownIdleTexture);
 
-
 			vector<CollidibleObject> trees;
 
-			int TREE_COUNT = 15;
-			for (int i = 0; i < TREE_COUNT; i++)
+			for (int i = 0; 56 + i * 24 < SCREEN_HEIGHT; i++)
 			{
-				CollidibleObject tree(20, 20 + i * 20);
+				CollidibleObject tree(24, 24 + i * 24);
 				trees.push_back(tree);
 			}
+
+			for (int i = 0; 56 + i * 24 < SCREEN_HEIGHT; i++)
+			{
+				CollidibleObject tree(SCREEN_WIDTH - 56,24 + i * 24);
+				trees.push_back(tree);
+			}
+
+			for (int i = 0; 56 + i * 24 < SCREEN_WIDTH; i++)
+			{
+				CollidibleObject tree(24 + i * 24, 24);
+				trees.push_back(tree);
+			}
+
+			for (int i = 0; 56 + i * 24 < SCREEN_WIDTH; i++)
+			{
+				CollidibleObject tree(24 + i * 24, SCREEN_HEIGHT - 56);
+				trees.push_back(tree);
+			}
+
+			// for (int i = 0; i < 10; i++)
+			// {
+			// 	CollidibleObject tree(SCREEN_WIDTH - 24, 24 + i * 24);
+			// 	trees.push_back(tree);
+			// }
 
 			// While application is running
 			while (!quit)
@@ -222,7 +242,7 @@ int main(int argc, char *args[])
 					}
 
 					// Handle input for the dot
-					player.handleEvent(e);
+					player.handleEventARROWS(e);
 				}
 
 				// Move the dot and check collision

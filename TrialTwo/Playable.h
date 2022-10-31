@@ -32,7 +32,8 @@ public:
     Playable(int x, int y);
 
     // Takes key presses and adjusts the dot's velocity
-    void handleEvent(SDL_Event &e);
+    void handleEventARROWS(SDL_Event &e);
+    void handleEventWASD(SDL_Event &e);
 
     // Moves the dot and checks collision
     void move(SDL_Rect &wall);

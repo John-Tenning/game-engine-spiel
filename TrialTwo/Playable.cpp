@@ -31,7 +31,7 @@ Playable::Playable(int x, int y) : CollidibleObject(x, y)
     currentEvent = "LEFT_STALL";
 };
 
-void Playable::handleEvent(SDL_Event &e)
+void Playable::handleEventARROWS(SDL_Event &e)
 {
     // If a key was pressed
     if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
@@ -76,6 +76,59 @@ void Playable::handleEvent(SDL_Event &e)
             mVelX += OBJ_VEL;
             break;
         case SDLK_RIGHT:
+            currentEvent = "RIGHT_STALL";
+            mVelX -= OBJ_VEL;
+            break;
+        }
+    }
+    printf("Event changed: %s\n", currentEvent.c_str());
+}
+
+void Playable::handleEventWASD(SDL_Event &e)
+{
+    // If a key was pressed
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+    {
+        // Adjust the velocity
+        switch (e.key.keysym.sym)
+        {
+        case SDLK_w:
+            currentEvent = "UP_WALK";
+            mVelY -= OBJ_VEL;
+            break;
+        case SDLK_s:
+            currentEvent = "DOWN_WALK";
+            mVelY += OBJ_VEL;
+            break;
+        case SDLK_a:
+            currentEvent = "LEFT_WALK";
+            mVelX -= OBJ_VEL;
+            break;
+        case SDLK_d:
+            currentEvent = "RIGHT_WALK";
+            mVelX += OBJ_VEL;
+            break;
+        }
+    }
+    // If a key was released
+    else if (e.type == SDL_KEYUP && e.key.repeat == 0)
+    {
+        // Adjust the velocity
+        switch (e.key.keysym.sym)
+        {
+        case SDLK_w:
+            currentEvent = "UP_STALL";
+            mVelY += OBJ_VEL;
+            break;
+        case SDLK_s:
+            currentEvent = "DOWN_STALL";
+            mVelY -= OBJ_VEL;
+            break;
+        case SDLK_a:
+            currentEvent = "LEFT_STALL";
+            mVelX += OBJ_VEL;
+            break;
+        case SDLK_d:
             currentEvent = "RIGHT_STALL";
             mVelX -= OBJ_VEL;
             break;
