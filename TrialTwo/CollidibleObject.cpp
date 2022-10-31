@@ -35,10 +35,10 @@ CollidibleObject::CollidibleObject(int x, int y)
     mCollider.h = OBJ_HEIGHT;
 }
 
-void CollidibleObject::render(LTexture &texture)
+void CollidibleObject::render()
 {
     // Show the dot
-    texture.render(mPosX, mPosY);
+    currentTexture->render(mPosX, mPosY);
 }
 
 void CollidibleObject::render(AnimatedTexture &texture)
@@ -57,4 +57,8 @@ void CollidibleObject::setColliderCoords(int x, int y)
 SDL_Rect CollidibleObject::getColliderRect()
 {
     return mCollider;
+}
+
+void CollidibleObject::bind(LTexture &texture){
+    currentTexture = &texture;
 }

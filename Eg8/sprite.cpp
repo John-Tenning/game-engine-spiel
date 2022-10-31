@@ -207,14 +207,14 @@ bool loadMedia()
 	bool success = true;
 
 	// Load Foo' texture
-	if (!gFooTexture.loadFromFile("cEg8/foo2.png"))
+	if (!gFooTexture.loadFromFile("D:\\Studies\\SPD\\Eg8\\foo2.png"))
 	{
 		printf("Failed to load Foo' texture image!\n");
 		success = false;
 	}
 
 	// Load background texture
-	if (!gBackgroundTexture.loadFromFile("Eg8/background.png"))
+	if (!gBackgroundTexture.loadFromFile("D:\\Studies\\SPD\\Eg8\\background.png"))
 	{
 		printf("Failed to load background texture image!\n");
 		success = false;

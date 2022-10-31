@@ -15,11 +15,14 @@ public:
     static const int OBJ_WIDTH = 32;
     static const int OBJ_HEIGHT = 32;
 
+    LTexture *currentTexture;
+
     CollidibleObject();
     CollidibleObject(int x, int y);
 
     void setColliderCoords(int x, int y);
-    void render(LTexture &texture);
+    void render();
+    void bind(LTexture &texture);
     void render(AnimatedTexture &texture);
     SDL_Rect getColliderRect();
 
