@@ -2,18 +2,17 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
-
+#include <SDL_ttf.h>
 #include "Common.h"
 #include "Spiel.h"
 
 bool SPIEL_init()
 {
-    
+
     timeFrame = 0;
 
     // Initialization flag
     bool success = true;
-
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -56,6 +55,14 @@ bool SPIEL_init()
                 {
                     printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
                     success = false;
+                }
+                else
+                {
+                    if (TTF_Init() == -1)
+                    {
+                        printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+                        success = false;
+                    }
                 }
             }
         }

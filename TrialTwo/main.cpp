@@ -1,6 +1,7 @@
 // Using SDL, SDL_image, standard IO, and strings
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <stdio.h>
 #include <string>
 #include <vector>
@@ -23,7 +24,9 @@ SDL_Window *gWindow = NULL;
 SDL_Renderer *gRenderer = NULL;
 int timeFrame = 0;
 
-// Scene textures
+// Rendered texture
+//  Scene textures
+LTexture gTextTexture;
 LTexture gDotTexture;
 LTexture gTreeTexture;
 LTexture gGroundTexture;
@@ -148,7 +151,12 @@ bool loadMedia()
 	{
 		gPlayerDownIdleTexture.setValues(15, 1, 24, 32, 0, 64);
 	}
-
+	SDL_Color textColor = {0, 0, 0};
+	if (!gTextTexture.loadFromRenderedText("The quick brown fox jumps over the lazy dog", textColor))
+	{
+		printf("Failed to render text texture!\n");
+		success = false;
+	}
 	if (success)
 	{
 		printf("Media loaded successfully!\n");
@@ -165,11 +173,13 @@ void unloadMedia()
 	gGroundTexture.free();
 	gPlayerLeftWalkTexture.free();
 	gPlayerRightWalkTexture.free();
+	gTextTexture.free();
 }
 
 int main(int argc, char *args[])
 {
 	// Start up SDL and create window
+
 	if (!SPIEL_init())
 		printf("Failed to initialize!\n");
 
@@ -198,7 +208,6 @@ int main(int argc, char *args[])
 			player.bindTexture("RIGHT_STALL", gPlayerRightIdleTexture);
 			player.bindTexture("UP_STALL", gPlayerUpIdleTexture);
 			player.bindTexture("DOWN_STALL", gPlayerDownIdleTexture);
-
 
 			vector<CollidibleObject> trees;
 
@@ -231,12 +240,16 @@ int main(int argc, char *args[])
 				// Clear screen
 				SPIEL_refreshScreen();
 
+				gGroundTexture.render(0, 0);
 				// Render dot
 				player.render();
 				for (int i = 0; i < trees.size(); i++)
 				{
 					trees[i].render(gTreeTexture);
 				}
+
+				// Don't forget to free your surface and texture
+				gTextTexture.render( ( SCREEN_WIDTH - gTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gTextTexture.getHeight() ) / 2 );
 
 				// Update screen
 				SDL_RenderPresent(gRenderer);
